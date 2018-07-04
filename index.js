@@ -119,74 +119,122 @@ module.exports = function() {
         // D:
         // P=P+(2,[C,E],C,3)
         //      P=0
-        //      C: P=1
-        //      P=P+(3,[D,E],C,3)
-        //          D:P=0
-        //          E:P=0
-        //          P=0
-        //      P=1+0=1
-        //      E: P=1
-        //      P=P+(3,[B],C)
-        //          B:P=0
-        //      P=1+0=1
-        // E:
-        // P=1+(2,[B],C,3)
+        //      C:  P=1
+        //          P=P+(3,[D,E],C,3)
+        //              D:P=0
+        //              E:P=0
+        //              P=0
+        //          P=1
+        //      E:  P=P+(3,[B],C)
+        //              B:P=0
+        //          P=1
+        //      P=1
+        // E:   P=1+(2,[B],C,3)
         //      P=0
-        //      P=0+(3,[C],C,3)
-        //      C: P=1
-        //      P=0+1=1
+        //      B:  P=0+(3,[C],C,3)
+        //          P=0
+        //          C: P=1
+        //          P=1
+        //      P=1
         // P=1+1=2
         pathNum = 0
         for (let i = 0; i < childArray.length; i++) {
+
+            // debug use
+            // console.log("walkNum= " + walkNum + " name= " + childArray[i].getName() + " maxWalk= " + maxWalk);
+            // console.log("walkNum < maxWalk : " + (walkNum < maxWalk));
 
             //如果到C則有一條路徑存在,路徑應數量應該加1
             if (childArray[i].getName() == endVertex) {
                 pathNum++
                 //若未達最大步數,則路徑數量等於孩子到C的路徑步數,但少了1步的成本
             } else if (walkNum < maxWalk) {
-                childArray = childArray[i].getchildVertexs()
-                pathNum = pathNum + walkNumLessEqualThenMaxStep(walkNum + 1, childArray, endVertex, maxWalk)
+                pathNum = pathNum + walkNumLessEqualThenMaxStep(walkNum + 1, childArray[i].getchildVertexs(), endVertex, maxWalk)
             }
         }
         return pathNum;
+
     }
 
     train.getWalkNumLessEqualThenMaxStep = function(startVertex, endVertex, maxWalk) {
-        let childArray = vertexSet[startVertex].getchildVertexs()
-            // (1,[D,E],C,3)
-        return walkNumLessEqualThenMaxStep(1, childArray, endVertex, maxWalk)
-            // walkNumLessEqualThenMaxStep(0, [vertexSet['C']], 'C', 3)
 
-        // return 'TEST'
+        let childArray = vertexSet[startVertex].getchildVertexs()
+        return walkNumLessEqualThenMaxStep(1, childArray, endVertex, maxWalk)
+
     }
 
 
 
     let walkNumEqualStep = function(walkNum, childArray, endVertex, maxWalk) {
-        pathNum = 0
-        console.log("=======" + childArray + "-" + endVertex + "-" + walkNum + "-" + maxWalk);
+        // console.log(maxWalk);
+        //tracing code
+        // (1,[B,D,E],C,4)
+        // P=0
+        // B:
+        // P=P+(2,[C],C,4)
+        //      P=0
+        //      C: P=P+(3,[D,E],C,4)=P+1=1
+        //          P=0
+        //          D:P+P(4,[C,E],C,4)
+        //              P=0
+        //              C:P=P+1=1
+        //              E:P=P+0=1
+        //              P=1
+        //          E:P+P(4,[B],C,4)
+        //              P=0
+        //              B:P=1
+        //              P=0
+        //          P=1
+        //      P=1
+        // D:
+        // P=0+(2,[C,E],C,4)
+        //      P=0
+        //      C:P=P+(3,[D,E],C,4)=P+1=1
+        //          P=0
+        //          D:P+P(4,[C,E],C,4)
+        //              P=0
+        //              C:P=P+1=1
+        //              E:P=P+0=1
+        //          P=1
+        //      E:P=P+(3,[B],C,4)
+        //          P=0
+        //          B:P=P+(4,[C],C,4)
+        //              P=0
+        //              C:P=P+1=1
+        //          P=1
+        //      P=2
+        // E:
+        // P=1+(2,[B],C,3)
+        //      P=0
+        //      B:P=P+(3,[C],C,3)
+        //          P=0
+        //          C: P=P+(4,[D,E],C,4)
+        //              D:P=0
+        //              E:P=0
+        //          P=0
+        //      P=0
+        // P=3
 
+        // console.log("=======" + childArray + "-" + endVertex + "-" + walkNum + "-" + maxWalk);
+        pathNum = 0
         for (let i = 0; i < childArray.length; i++) {
+
             //若步數相等 且抵達目的地 路徑數量應加1
             if (walkNum == maxWalk && childArray[i].getName() == endVertex) {
                 pathNum++
-                //若未達最大步數 則等於孩子可以走到終點的路徑數
+                //若未達最大步數,則路徑數量等於孩子的路徑步數,但少了1步的成本
             } else if (walkNum < maxWalk) {
-                childArray = childArray[i].getchildVertexs()
-                walkNum = walkNum + 1
-                console.log("=======" + childArray + "-" + endVertex + "-" + walkNum + "-" + maxWalk);
-                pathNum = pathNum + walkNumEqualStep(walkNum + 1, childArray, endVertex, maxWalk)
+                // debug use
+                // console.log("walkNum= " + walkNum + " name= " + childArray[i].getName());
+                pathNum = pathNum + walkNumEqualStep(walkNum + 1, childArray[i].getchildVertexs(), endVertex, maxWalk)
             }
         }
-
         return pathNum;
     }
 
-    train.getWalkNumEqualStep = function(startVertex, endVertex, maxStop) {
-        // let childArray = vertexSet[startVertex].getchildVertexs()
-
-        // return walkNumEqualStep(1, childArray, endVertex, maxWalk);
-
+    train.getWalkNumEqualStep = function(startVertex, endVertex, maxWalk) {
+        let childArray = vertexSet[startVertex].getchildVertexs()
+        return walkNumEqualStep(1, childArray, endVertex, maxWalk);
     }
 
     train.getShortestLength = function(start, end) {

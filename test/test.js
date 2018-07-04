@@ -30,15 +30,6 @@ describe('PROBLEM ONE:  TRAINS', function() {
             //build graph
             vertexSet = train.buildGraph(graphArray)
 
-            // for (let i = 0; i < Object.keys(vertexSet).length; i++) {
-            //     let name = Object.keys(vertexSet)[i]
-            //     let edges = vertexSet[name].getEdges()
-            //     for (let j = 0; j < edges.length; j++) {
-            //         console.log(name + "-" + vertexSet[name].getEdges()[j].getNext().getName() + ":" + vertexSet[name].getEdges()[j].getWeight())
-
-            //     }
-            // }
-
             // <A,B,5>
             // <B,C,4>
             // <C,D,8>
@@ -119,9 +110,9 @@ describe('PROBLEM ONE:  TRAINS', function() {
 
         it('g.The number of trips starting at A and ending at C with exactly 4 stops. In the sample data below, there are three such trips: A to C (via B,C,D); A to C (via D,C,D); and A to C (via D,E,B). answer:' + expectedOutput[6], function() {
 
-            // let answer = train.getWalkNumEqualStep('A', 'C', 4)
-            // console.log(answer);
-            // assert.equal(expectedOutput[6], answer);
+            let answer = train.getWalkNumEqualStep('A', 'C', 4)
+                // console.log(answer);
+            assert.equal(expectedOutput[6], answer);
         })
 
         it('h.The length of the shortest route (in terms of distance to travel) from A to C. answer:' + expectedOutput[7], function() {
@@ -140,7 +131,7 @@ describe('PROBLEM ONE:  TRAINS', function() {
         it('j.The number of different routes from C to C with a distance of less than 50. E.g. CDC, CEBC are both trips of less than 50. answer:' + expectedOutput[9], function() {
 
 
-            // let answer = train.getdistanceOfLessThan('C', 'C', 30)
+            // let answer = train.getWalkNumLessEqualThenMaxStep('C', 'C', 4)
             // console.log(answer);
             // assert.equal(expectedOutput[9], answer);
         })
