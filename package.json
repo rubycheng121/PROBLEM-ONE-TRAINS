@@ -1,0 +1,31 @@
+{
+  "name": "train-practice",
+  "version": "1.0.0",
+  "description": "Ruby's practice work",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rubycheng121/PROBLEM-ONE-TRAINS.git"
+  },
+  "keywords": [
+    "nodeJS",
+    "Dijkstra's",
+    "Algorithm"
+  ],
+  "author": "Ruby Cheng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rubycheng121/PROBLEM-ONE-TRAINS/issues"
+  },
+  "homepage": "https://github.com/rubycheng121/PROBLEM-ONE-TRAINS#readme"
+}
