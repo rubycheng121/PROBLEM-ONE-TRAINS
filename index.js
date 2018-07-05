@@ -324,7 +324,7 @@ module.exports = function() {
                 for (let j = 0; j < edges.length; j++) {
                     let childName = edges[j].getNext().getName()
                     if (walkLength >= 1) {
-                        count = count + pathCounts[walkLength - edgeWeight][childName]
+                        count = count + pathCounts[walkLength - 1][childName]
                     }
                 }
                 if ((name == endVertex) && (walkLength == 0)) {
