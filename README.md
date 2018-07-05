@@ -128,19 +128,19 @@ copy ```var train = require('../index')('./inputFile.txt')``` to the target java
 
 5. get the path count (walk count <= MaxStep)
 
- example:
-   from 'C' to 'C' and the max step is 3
+    example:
+    from 'C' to 'C' and the max step is 3
      ```let result =  train.getWalkNumLessEqualThenMaxStep_DynamicProgramming('C', 'C', 3, vertexSet, false)```
 
 6. get the path count (walk count = MaxStep)
 
- example:
+    example:
     from 'A' to 'C' and the max step is 4
     ```let result = train.getWalkNumEqualMaxStep_DynamicProgramming('A', 'C', 4, vertexSet)```
 
 7. get the shortest path
 
- example: 
+    example: 
     from 'A' to 'C'
     ```let result = train.getShortestLength(vertexSet["A"], vertexSet["C"])```
     from 'B' to 'B'
@@ -148,7 +148,7 @@ copy ```var train = require('../index')('./inputFile.txt')``` to the target java
 
 8. get the path count (path length < maxlength)
 
- example:
+    example:
     from 'C' to 'C' and the max length is 50
     ```let result = train.getWalkNumLessEqualThenMaxStep_DynamicProgramming('C', 'C', 50 - 1, vertexSet, true)```
 
@@ -162,8 +162,9 @@ Idea
 1. train.getdistance(pathString)
 
     a. design Vertex and Edge Object
-        Vertex
+        use for loop to get each length and calculate the sum
 
+    Vertex: 
 ```js
     var Vertex = function(name) {
         this.getName = function() { return name };
@@ -216,7 +217,26 @@ Idea
     b. if do not need to care each edge's length then each edge length =1
     c. if the result is about 
     "How many path can go to end Vertex and the path length must < n " then each edge's length = edges[j].getWeight()
-    d. each round the solution = soulution + vertex's child in the (round-1) solution  
+    d. each round the solution = soulution + vertex's child in the (round-1) solution
+
+version 1  Recursive version
+
+```js
+   let walkNumLessEqualThenMaxStep_Recursive = function(walkNum, childArray, endVertex, maxWalk) {
+        pathNum = 0
+        for (let i = 0; i < childArray.length; i++) {
+
+            if (childArray[i].getName() == endVertex) {
+                pathNum++
+            } else if (walkNum < maxWalk) {
+                pathNum = pathNum + walkNumLessEqualThenMaxStep(walkNum + 1, childArray[i].getchildVertexs(), endVertex, maxWalk)
+            }
+        }
+        return pathNum;
+    }
+```
+
+version 2 DynamicProgramming version
 ```js
     train.getWalkNumLessEqualThenMaxStep_DynamicProgramming = function(startVertex, endVertex, maxLength, vertexSet, useWeight) {
         var pathCounts = [];
@@ -264,6 +284,22 @@ Idea
 
     a. it very like the soulution on "2." but need to limit the condition to counting 
 
+    version 1  Recursive version
+```js
+    let walkNumEqualStep_Recursive = function(walkNum, childArray, endVertex, maxWalk) {
+        pathNum = 0
+        for (let i = 0; i < childArray.length; i++) {
+
+            if (walkNum == maxWalk && childArray[i].getName() == endVertex) {
+                pathNum++
+            } else if (walkNum < maxWalk) {
+                pathNum = pathNum + walkNumEqualStep(walkNum + 1, childArray[i].getchildVertexs(), endVertex, maxWalk)
+            }
+        }
+        return pathNum;
+    }
+```
+    version 2  Dynamic Programming version
 ```js
     train.getWalkNumEqualMaxStep_DynamicProgramming = function(startVertex, endVertex, maxLength, vertexSet) {
         var pathCounts = [];
