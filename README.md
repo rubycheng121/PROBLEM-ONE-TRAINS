@@ -234,9 +234,12 @@ b.split the array and get the distance
 2. train.getWalkNumLessEqualThenMaxStep_DynamicProgramming(startVertex, endVertex, maxLength, vertexSet, useWeight)
 
     a. use dynamic programming to write each count in an array
+
     b. if do not need to care each edge's length then each edge length =1
+
     c. if the result is about 
     "How many path can go to end Vertex and the path length must < n " then each edge's length = edges[j].getWeight()
+
     d. each round the solution = soulution + vertex's child in the (round-1) solution
 
 version 1  Recursive version
@@ -302,9 +305,9 @@ version 2 DynamicProgramming version
 
 3. train.getWalkNumEqualMaxStep_DynamicProgramming(startVertex, endVertex, maxLength, vertexSet)
 
-    a. it very like the soulution on "2." but need to limit the condition to counting 
+a. it very like the soulution on "2." but need to limit the condition to counting 
 
-    version 1  Recursive version
+version 1  Recursive version
 ```js
     let walkNumEqualStep_Recursive = function(walkNum, childArray, endVertex, maxWalk) {
         pathNum = 0
@@ -319,7 +322,7 @@ version 2 DynamicProgramming version
         return pathNum;
     }
 ```
-    version 2  Dynamic Programming version
+version 2  Dynamic Programming version
 ```js
     train.getWalkNumEqualMaxStep_DynamicProgramming = function(startVertex, endVertex, maxLength, vertexSet) {
         var pathCounts = [];
@@ -359,9 +362,9 @@ version 2 DynamicProgramming version
 
 4. train.getShortestLength = function(start, end)
 
-    a. it is a tractional shortest path problem , then using a Fibonacci Heap for implementing Dijkstra's Algorithm
+a. it is a tractional shortest path problem , then using a Fibonacci Heap for implementing Dijkstra's Algorithm
 
-    b . the idea is 
+b . the idea is 
     there are vertexes {v,u,s}  , and v is start s is end
     if destince(v,s)>destince(v,u)+destince(u,s)
     then the path v->s change to v->u->s
