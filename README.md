@@ -113,59 +113,43 @@ copy ```var train = require('../index')('./inputFile.txt')``` to the target java
 2. read input file to get graphArray
 
     ```let data = train.read('./inputFile.txt')```
-
     ```let graphArray = graphArray = train.getGraphArray(data)```
-
     or
-
     ```let data = ['A,B,5', 'B,C,4', 'C,D,8', 'D,C,8', 'D,E,6', 'A,D,5', 'C,E,2', 'E,B,3', 'A,E,7']```
 
 3. create a graph then get vertexSet
-
     ```let vertexSet = train.buildGraph(graphArray)```
 
 4. get the distance of a path
 
     example:
-
      ```let result = train.getdistance('A-B-C')```
-
      ```let result = train.getdistance('A-D')```
 
 5. get the path count (walk count <= MaxStep)
 
  example:
-
    from 'C' to 'C' and the max step is 3
-
      ```let result =  train.getWalkNumLessEqualThenMaxStep_DynamicProgramming('C', 'C', 3, vertexSet, false)```
 
 6. get the path count (walk count = MaxStep)
 
  example:
-
     from 'A' to 'C' and the max step is 4
-
     ```let result = train.getWalkNumEqualMaxStep_DynamicProgramming('A', 'C', 4, vertexSet)```
 
 7. get the shortest path
 
  example: 
-
     from 'A' to 'C'
-
     ```let result = train.getShortestLength(vertexSet["A"], vertexSet["C"])```
     from 'B' to 'B'
-
     ```let result = train.getShortestLength(vertexSet["B"], vertexSet["B"])```
 
 8. get the path count (path length < maxlength)
 
  example:
-
     from 'C' to 'C' and the max length is 50
-
-
     ```let result = train.getWalkNumLessEqualThenMaxStep_DynamicProgramming('C', 'C', 50 - 1, vertexSet, true)```
 
 9. print the result 
