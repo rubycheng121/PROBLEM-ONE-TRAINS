@@ -182,10 +182,9 @@ Idea
 
 1. train.getdistance(pathString)
 
-    a. design Vertex and Edge Object
-        use for loop to get each length and calculate the sum
+a. design Vertex and Edge Object,use for loop to get each length and calculate the sum
 
-    Vertex: 
+ Vertex: 
 ```js
     var Vertex = function(name) {
         this.getName = function() { return name };
@@ -205,7 +204,7 @@ Idea
     }
 ```
         
-        Edge
+Edge
 ```js
     var Edge = function(preVertex, nextVertex, weight) {
         this.getPre = function() { return preVertex; };
@@ -213,7 +212,7 @@ Idea
         this.getWeight = function() { return weight; };
     }
 ```
-    b.split the array and get the distance
+b.split the array and get the distance
 
 ```js
     train.getdistance = function(path) {
