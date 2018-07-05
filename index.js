@@ -109,9 +109,7 @@ module.exports = function() {
     }
 
 
-
-
-    let walkNumLessEqualThenMaxStep = function(walkNum, childArray, endVertex, maxWalk) {
+    let walkNumLessEqualThenMaxStep_Recursive = function(walkNum, childArray, endVertex, maxWalk) {
 
         //tracing code
         // (1,[D,E],C,3)
@@ -153,19 +151,16 @@ module.exports = function() {
             }
         }
         return pathNum;
-
     }
 
-    train.getWalkNumLessEqualThenMaxStep = function(startVertex, endVertex, maxWalk) {
-
+    train.getWalkNumLessEqualThenMaxStep_Recursive = function(startVertex, endVertex, maxWalk) {
         let childArray = vertexSet[startVertex].getchildVertexs()
-        return walkNumLessEqualThenMaxStep(1, childArray, endVertex, maxWalk)
+
+        return walkNumLessEqualThenMaxStep_Recursive(1, childArray, endVertex, maxWalk)
 
     }
 
-
-
-    let walkNumEqualStep = function(walkNum, childArray, endVertex, maxWalk) {
+    let walkNumEqualStep_Recursive = function(walkNum, childArray, endVertex, maxWalk) {
         // console.log(maxWalk);
         //tracing code
         // (1,[B,D,E],C,4)
@@ -232,9 +227,9 @@ module.exports = function() {
         return pathNum;
     }
 
-    train.getWalkNumEqualStep = function(startVertex, endVertex, maxWalk) {
+    train.getWalkNumEqualStep_Recursive = function(startVertex, endVertex, maxWalk) {
         let childArray = vertexSet[startVertex].getchildVertexs()
-        return walkNumEqualStep(1, childArray, endVertex, maxWalk);
+        return walkNumEqualStep_Recursive(1, childArray, endVertex, maxWalk);
     }
 
     train.getShortestLength = function(start, end) {
@@ -248,7 +243,7 @@ module.exports = function() {
                 var newVert = edges[i].getNext();
                 var newDist = distance + edges[i].getWeight();
                 if (hasBeenQueued[newVert])
-                    try { // try block needed in case newVert was removed
+                    try {
                         verticesToCheck.decreaseKey(newVert, newDist);
                     } catch (e) {}
                 else {
@@ -272,28 +267,76 @@ module.exports = function() {
         return null;
     };
 
-    let distanceOfLessThan = function(distance, childEdgesArray, endVertex, maxdistance) {
-        console.log(childEdgesArray);
+    train.getWalkNumLessEqualThenMaxStep_DynamicProgramming = function(startVertex, endVertex, maxLength, vertexSet, useWeight) {
+        var pathCounts = [];
+        // let useWeight = false
 
-        var pathNum = 0;
-        for (let i = 0; i < childEdgesArray.length; i++) {
-            pathLength = childEdgesArray[i].getWeight()
-            if (pathLength <= maxdistance)
-                pathNum += distanceOfLessThan(pathLength, endVertex, maxdistance - pathLength);
-            if (childEdgesArray[i].getNext.getName() == endVertex)
-                pathNum++;
-            if (distance >= maxdistance - 1) {
-                return pathNum
+        for (var walkLength = 0; walkLength <= maxLength; walkLength++) {
+            pathCounts[walkLength] = {};
+
+            for (let i = 0; i < Object.keys(vertexSet).length; i++) {
+                // name走walkLength步到endVertex的路徑初始化=0
+                let count = 0
+                let name = Object.keys(vertexSet)[i]
+                let edges = vertexSet[name].getEdges()
+
+                for (let j = 0; j < edges.length; j++) {
+                    let childName = edges[j].getNext().getName()
+                    let edgeWeight = 1
+
+                    if (useWeight) {
+                        edgeWeight = edges[j].getWeight()
+                    } else {
+                        edgeWeight = 1
+                    }
+                    if (walkLength >= edgeWeight) {
+                        count = count + pathCounts[walkLength - edgeWeight][childName]
+                    }
+                }
+                if (name == endVertex) {
+                    count++
+                }
+                pathCounts[walkLength][name] = count
+
             }
         }
-        return pathNum;
+        // console.log("pathCounts[]=" + JSON.stringify(pathCounts));
+        if ((startVertex == endVertex)) {
+            return pathCounts[maxLength][startVertex] - 1
+        } else {
+            return pathCounts[maxLength][startVertex]
+        }
+
     }
 
-    train.getdistanceOfLessThan = function(startVertex, endVertex, maxdistance) {
-        let childEdgesArray = vertexSet[startVertex].getchildEdges()
 
-        return distanceOfLessThan(0, childEdgesArray, endVertex, maxdistance)
-    }
+
+
+
+
+
+    // let distanceOfLessThan = function(distance, childEdgesArray, endVertex, maxdistance) {
+    //     console.log(childEdgesArray);
+
+    //     var pathNum = 0;
+    //     for (let i = 0; i < childEdgesArray.length; i++) {
+    //         pathLength = childEdgesArray[i].getWeight()
+    //         if (pathLength <= maxdistance)
+    //             pathNum += distanceOfLessThan(pathLength, endVertex, maxdistance - pathLength);
+    //         if (childEdgesArray[i].getNext.getName() == endVertex)
+    //             pathNum++;
+    //         if (distance >= maxdistance - 1) {
+    //             return pathNum
+    //         }
+    //     }
+    //     return pathNum;
+    // }
+
+    // train.getdistanceOfLessThan = function(startVertex, endVertex, maxdistance) {
+    //     let childEdgesArray = vertexSet[startVertex].getchildEdges()
+
+    //     return distanceOfLessThan(0, childEdgesArray, endVertex, maxdistance)
+    // }
 
 
     return train;

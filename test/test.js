@@ -1,10 +1,9 @@
 var assert = require('assert');
 var train = require('../index')('./inputFile.txt')
-
 describe('PROBLEM ONE:  TRAINS', function() {
     let graphArray = []
     let data
-    let expectedOutput = [9, 5, 13, 22, 'NO SUCH ROUTE', 2, 3, 9, 9, 7]
+    let expectedOutput = [9, 5, 13, 22, 'NO SUCH ROUTE', 2, 3, 9, 9, 39]
     let vertexSet
     describe('setUpGraph', function() {
 
@@ -103,16 +102,17 @@ describe('PROBLEM ONE:  TRAINS', function() {
 
         it('f.The number of trips starting at C and ending at C with a maximum of 3 stops.  In the sample data below, there are two such trips: C-D-C (2 stops). and C-E-B-C (3 stops). answer:' + expectedOutput[5], function() {
 
-            let answer = train.getWalkNumLessEqualThenMaxStep('C', 'C', 3)
-                // console.log(answer);
+            // let answer = train.getWalkNumLessEqualThenMaxStep__Recursive('C', 'C', 3)
+
+            let answer = train.getWalkNumLessEqualThenMaxStep_DynamicProgramming('C', 'C', 3, vertexSet, false)
             assert.equal(expectedOutput[5], answer);
         })
 
         it('g.The number of trips starting at A and ending at C with exactly 4 stops. In the sample data below, there are three such trips: A to C (via B,C,D); A to C (via D,C,D); and A to C (via D,E,B). answer:' + expectedOutput[6], function() {
 
-            let answer = train.getWalkNumEqualStep('A', 'C', 4)
-                // console.log(answer);
-            assert.equal(expectedOutput[6], answer);
+            // let answer = train.getWalkNumEqualStep('A', 'C', 4)
+            // console.log(answer);
+            // assert.equal(expectedOutput[6], answer);
         })
 
         it('h.The length of the shortest route (in terms of distance to travel) from A to C. answer:' + expectedOutput[7], function() {
@@ -131,11 +131,10 @@ describe('PROBLEM ONE:  TRAINS', function() {
         it('j.The number of different routes from C to C with a distance of less than 50. E.g. CDC, CEBC are both trips of less than 50. answer:' + expectedOutput[9], function() {
 
 
-            // let answer = train.getWalkNumLessEqualThenMaxStep('C', 'C', 4)
-            // console.log(answer);
-            // assert.equal(expectedOutput[9], answer);
+            let answer = train.getWalkNumLessEqualThenMaxStep_DynamicProgramming('C', 'C', 50 - 1, vertexSet, true)
+            assert.equal(expectedOutput[9], answer);
         })
 
     });
 
-});
+})
