@@ -1,7 +1,7 @@
 # PROBLEM-ONE-TRAINS
 practice work
 
-How to Runnung:
+How to Running:
 ======================================
 
 1. Please install node.js in the shell
