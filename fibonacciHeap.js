@@ -1,19 +1,3 @@
-/**	In this file we define a Fibonacci Heap class.  A fibonacci heap is a
- *	heap with special properties which make it fast for use in Dijkstra's
- *	algorithm.  I suggest you read Wikipedia for details, but the short of it
- *	is that it has fast amortized add(), extractMin(), and decreaseKey().
- *
- *	We require to toString() function to produce distinct strings for
- *	distinct values in this implementation.  This is problematic, but the
- *	best option available since JavaScript does not require Objects to have
- *	something like Java's hashCode().
- *
- *	Because I am writing this specifically for use in Dijkstra's algorithm,
- *	I have only implemented add(), extractMin(), and decreaseKey().
- *
- *	@author	sjelin
- */
-
 var FibonacciHeap = (function() {
     "use strict";
 

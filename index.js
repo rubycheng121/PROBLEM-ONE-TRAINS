@@ -6,9 +6,9 @@ module.exports = function() {
 
     var Vertex = function(name) {
         this.getName = function() { return name };
-        var edges = [];
-        var childEdge = {};
-        var childVertexs = [];
+        let edges = [];
+        let childEdge = {};
+        let childVertexs = [];
 
         this.getEdges = function() { return edges; };
         this.getchildVertexs = function() { return childVertexs; }
@@ -22,7 +22,7 @@ module.exports = function() {
         };
     }
     Vertex.prototype.toString = function() {
-        return "[Vertex " + this.getName() + "]";
+        return "[" + this.getName() + "]";
     }
     var Edge = function(preVertex, nextVertex, weight) {
         this.getPre = function() { return preVertex; };
@@ -30,7 +30,7 @@ module.exports = function() {
         this.getWeight = function() { return weight; };
     }
     Edge.prototype.toString = function() {
-        return "[Edge " + this.getPre().getName() + "-> " + this.getNext().getName() + "]";
+        return "[" + this.getPre().getName() + "-> " + this.getNext().getName() + "]";
     }
 
     let train = {};
@@ -282,8 +282,7 @@ module.exports = function() {
 
                 for (let j = 0; j < edges.length; j++) {
                     let childName = edges[j].getNext().getName()
-                    let edgeWeight = 1
-
+                    let edgeWeight
                     if (useWeight) {
                         edgeWeight = edges[j].getWeight()
                     } else {
@@ -310,33 +309,39 @@ module.exports = function() {
     }
 
 
+    train.getWalkNumEqualMaxStep_DynamicProgramming = function(startVertex, endVertex, maxLength, vertexSet) {
+        var pathCounts = [];
 
+        for (var walkLength = 0; walkLength <= maxLength; walkLength++) {
+            pathCounts[walkLength] = {};
 
+            for (let i = 0; i < Object.keys(vertexSet).length; i++) {
+                // name走walkLength步到endVertex的路徑初始化=0
+                let count = 0
+                let name = Object.keys(vertexSet)[i]
+                let edges = vertexSet[name].getEdges()
 
+                for (let j = 0; j < edges.length; j++) {
+                    let childName = edges[j].getNext().getName()
+                    if (walkLength >= 1) {
+                        count = count + pathCounts[walkLength - edgeWeight][childName]
+                    }
+                }
+                if ((name == endVertex) && (walkLength == 0)) {
+                    count++
+                }
+                pathCounts[walkLength][name] = count
 
+            }
+        }
+        // console.log("pathCounts[]=" + JSON.stringify(pathCounts));
+        if ((startVertex == endVertex) && (maxLength == 0)) {
+            return pathCounts[maxLength][startVertex] - 1
+        } else {
+            return pathCounts[maxLength][startVertex]
+        }
 
-    // let distanceOfLessThan = function(distance, childEdgesArray, endVertex, maxdistance) {
-    //     console.log(childEdgesArray);
-
-    //     var pathNum = 0;
-    //     for (let i = 0; i < childEdgesArray.length; i++) {
-    //         pathLength = childEdgesArray[i].getWeight()
-    //         if (pathLength <= maxdistance)
-    //             pathNum += distanceOfLessThan(pathLength, endVertex, maxdistance - pathLength);
-    //         if (childEdgesArray[i].getNext.getName() == endVertex)
-    //             pathNum++;
-    //         if (distance >= maxdistance - 1) {
-    //             return pathNum
-    //         }
-    //     }
-    //     return pathNum;
-    // }
-
-    // train.getdistanceOfLessThan = function(startVertex, endVertex, maxdistance) {
-    //     let childEdgesArray = vertexSet[startVertex].getchildEdges()
-
-    //     return distanceOfLessThan(0, childEdgesArray, endVertex, maxdistance)
-    // }
+    }
 
 
     return train;

@@ -1,12 +1,3 @@
-/**	This file contains a bunch of tests for the Fibonacci Heap.  The tests
- *	can be run using Mocha for Node.js.  Just use:
- *		mocha fibonacciTests.js
- *	If you have istanbul installed, you can generate a coverage report too:
- *		istanbul cover _mocha fibonacciTests.js
- *
- *	@author	sjelin
- */
-
 var FibHeap = require("../fibonacciHeap.js");
 var assert = require("assert");
 
